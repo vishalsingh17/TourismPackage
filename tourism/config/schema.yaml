@@ -1,6 +1,6 @@
 columns:
   - CustomerID: int
-  - ProdTaken: int
+  - ProdTaken: int  
   - Age: float
   - CityTier: int
   - DurationOfPitch: float
@@ -44,3 +44,6 @@ categorical_columns:
   - MaritalStatus
   - Designation
 
+drop_columns: ~
+
+target_column: ProdTaken

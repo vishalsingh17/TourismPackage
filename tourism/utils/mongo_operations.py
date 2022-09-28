@@ -1,7 +1,7 @@
 import logging
 import sys
 from json import loads
-from os import environ
+import os
 
 import pandas as pd
 from pymongo import MongoClient
@@ -21,7 +21,7 @@ class MongoDBOperation:
     """
 
     def __init__(self):
-        self.DB_URL = environ["iNeuronDBPassword"]
+        self.DB_URL = f'mongodb+srv://iNeuron:{os.environ["iNeuronDBPassword"]}@ineuron-ai-projects.7eh1w4s.mongodb.net/?retryWrites=true&w=majority'
 
         self.client = MongoClient(self.DB_URL)
 

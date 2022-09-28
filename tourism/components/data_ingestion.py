@@ -20,7 +20,7 @@ class DataIngestion:
 
         self.collection_name = self.config["mongo"]["collection_name"]
 
-        self.drop_cols = list(self.schema_config["drop_columns"])
+        # self.drop_cols = list(self.schema_config["drop_columns"])
 
     @staticmethod
     def split_data_as_train_test(df):
@@ -71,11 +71,11 @@ class DataIngestion:
         try:
             df = self.get_data_from_mongodb()
 
-            df1 = df.drop(self.drop_cols, axis=1)
+            # df1 = df.drop(self.drop_cols, axis=1)
 
             log_writer.info("Got the data from mongodb")
 
-            train_set, test_set = self.split_data_as_train_test(df1)
+            train_set, test_set = self.split_data_as_train_test(df)
 
             log_writer.info("Performed train test split on the dataset")
 
