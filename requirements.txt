@@ -5,3 +5,8 @@ PyYAML
 evidently
 category_encoders
 from_root
+matplotlib
+seaborn
+imblearn
+xgboost
+catboost

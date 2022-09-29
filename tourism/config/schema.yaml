@@ -46,4 +46,8 @@ categorical_columns:
 
 drop_columns: ~
 
+outlier_columns:
+  - DurationOfPitch
+  - MonthlyIncome
+
 target_column: ProdTaken
