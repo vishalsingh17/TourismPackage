@@ -36,7 +36,7 @@ numerical_columns:
   - NumberOfChildrenVisiting
   - MonthlyIncome
 
-categorical_columns:
+cat_features:
   - TypeofContact
   - Occupation
   - Gender
@@ -44,9 +44,25 @@ categorical_columns:
   - MaritalStatus
   - Designation
 
-drop_columns: ~
 
-outlier_columns:
+disc_feature:
+  - ProdTaken
+  - CityTier
+  - NumberOfPersonVisiting
+  - NumberOfFollowups
+  - PreferredPropertyStar
+  - NumberOfTrips
+  - Passport
+  - PitchSatisfactionScore
+  - OwnCar
+  - NumberOfChildrenVisiting
+
+continuous_features:
+  - Age
+  - DurationOfPitch
+  - MonthlyIncome
+
+transform_features:
   - DurationOfPitch
   - MonthlyIncome
 

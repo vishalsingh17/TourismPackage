@@ -1,11 +1,12 @@
 import logging
 import os
 import sys
-
 import numpy as np
-from category_encoders.binary import BinaryEncoder
+
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler,PowerTransformer
 
 from tourism.components.data_ingestion import DataIngestion
 from tourism.exception import TourismException
@@ -35,29 +36,52 @@ class DataTransformation:
         )
 
         try:
-            numerical_columns = self.schema_config["numerical_columns"]
+            disc_feature = self.schema_config["disc_feature"]
 
-            onehot_columns = self.schema_config["onehot_columns"]
+            continuous_features = self.schema_config["continuous_features"]
 
-            binary_columns = self.schema_config["binary_columns"]
+            cat_features = self.schema_config["cat_features"]
+
+            transform_features = self.schema_config["transform_features"]
 
             logger.info(
                 "Got numerical cols,one hot cols,binary cols from schema config"
             )
 
-            numeric_transformer = StandardScaler()
+            logger.info("Initialized Data Transformer pipeline.")
 
-            oh_transformer = OneHotEncoder()
+            discrete_pipeline = Pipeline(
+                steps=[
+                    ("imputer", SimpleImputer(strategy="most_frequent")),
+                    ("scaler", StandardScaler()),
+                ]
+            )
 
-            binary_transformer = BinaryEncoder()
+            continuous_pipeline = Pipeline(
+                steps=[("imputer", SimpleImputer(strategy="mean")), ("scaler", StandardScaler())]
+            )
 
-            logger.info("Initialized StandardScaler,OneHotEncoder,BinaryEncoder")
+            cat_pipeline = Pipeline(
+                steps=[
+                    ("imputer", SimpleImputer(strategy="most_frequent")),
+                    ("one_hot_encoder", OneHotEncoder()),
+                    ("scaler", StandardScaler(with_mean=False)),
+                ]
+            )
+
+            transform_pipe = Pipeline(
+                steps=[
+                    ("imputer", SimpleImputer(strategy="mean")),
+                    ("transformer", PowerTransformer(standardize=True)),
+                ]
+            )
 
             preprocessor = ColumnTransformer(
                 [
-                    ("OneHotEncoder", oh_transformer, onehot_columns),
-                    ("BinaryEncoder", binary_transformer, binary_columns),
-                    ("StandardScaler", numeric_transformer, numerical_columns),
+                    ("Discrete_Pipeline", discrete_pipeline, disc_feature),
+                    ("Continuous_Pipeline", continuous_pipeline, continuous_features),
+                    ("Categorical_Pipeline", cat_pipeline, cat_features),
+                    ("Power_Transformation", transform_pipe, transform_features),
                 ]
             )
 
@@ -80,19 +104,11 @@ class DataTransformation:
         try:
             logger.info("Performing _outlier_capping for columns in the dataframe")
 
-            percentile25 = df[col].quantile(0.25)
+            upper_limit = df[col].mean() + 3 * df[col].std()
 
-            percentile75 = df[col].quantile(0.75)
+            lower_limit = df[col].mean() - 3 * df[col].std()
 
-            iqr = percentile75 - percentile25
-
-            upper_limit = percentile75 + 1.5 * iqr
-
-            lower_limit = percentile25 - 1.5 * iqr
-
-            df.loc[(df[col] > upper_limit), col] = upper_limit
-
-            df.loc[(df[col] < lower_limit), col] = lower_limit
+            df = df[(df[col] < upper_limit) & (df[col] > lower_limit)]
 
             logger.info(
                 "Performed _outlier_capping method of Data_Transformation class"

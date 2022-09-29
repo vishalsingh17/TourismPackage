@@ -10,3 +10,4 @@ seaborn
 imblearn
 xgboost
 catboost
+boto3
