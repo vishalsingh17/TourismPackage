@@ -41,7 +41,7 @@ def validate_schema_for_numerical_datatype(df):
 
 def validate_schema_for_categorical_datatype(df):
     try:
-        for column in schema_config["categorical_columns"]:
+        for column in schema_config["cat_features"]:
             try:
                 if column in df.columns:
                     validation_status = True

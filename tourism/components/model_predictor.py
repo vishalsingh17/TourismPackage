@@ -11,7 +11,7 @@ from car_price.utils.read_params import read_params
 log_writer = logging.getLogger(__name__)
 
 
-class CarPriceData:
+class TourismData:
     def __init__(
         self,
         car_name,

@@ -46,7 +46,6 @@ cat_features:
 
 
 disc_feature:
-  - ProdTaken
   - CityTier
   - NumberOfPersonVisiting
   - NumberOfFollowups

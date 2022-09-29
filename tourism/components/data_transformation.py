@@ -58,8 +58,8 @@ class DataTransformation:
             )
 
             continuous_pipeline = Pipeline(
-                steps=[("imputer", SimpleImputer(strategy="mean")), ("scaler", StandardScaler())]
-            )
+                steps=[("imputer", SimpleImputer(strategy="mean")), 
+                ("scaler", StandardScaler())])
 
             cat_pipeline = Pipeline(
                 steps=[
@@ -139,11 +139,7 @@ class DataTransformation:
                 "Got target column name and numerical columns from schema config"
             )
 
-            continuous_columns = [
-                feature
-                for feature in numerical_columns
-                if len(train_set[feature].unique()) >= 25
-            ]
+            continuous_columns = self.schema_config["continuous_features"]
 
             logger.info("Got a list of continuous_columns")
 
