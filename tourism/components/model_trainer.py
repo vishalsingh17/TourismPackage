@@ -11,6 +11,7 @@ from tourism.utils.read_params import read_params
 log_writer = logging.getLogger(__name__)
 
 
+
 class TourismData:
     def __init__(
         self,
