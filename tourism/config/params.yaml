@@ -1,94 +1,70 @@
 mongo:
   db_name: ineuron
   collection_name: tourism
-
 artifacts_dir: tourism/artifacts
-
 logs_dir: tourism/logs
-
 app:
   host: 0.0.0.0
   port: 8080
-
 templates:
   dir: templates
   index_html_file: index.html
-
 save_format: .sav
-
 s3_bucket:
   tourism_input_files_bucket: tourism-io-files
   tourism_logs_bucket: tourism-logs
-
 model_dir:
   trained: trained
   stag: staging
   prod: production
-
 model_utils:
-  verbose: False
+  verbose: 2
   cv: 2
   n_jobs: -1
-
 schema_path: tourism/config/schema.yaml
-
 model_file_name: model
-
 preprocessor_obj_file_name: tourism/artifacts/preprocessor.pkl
-
 train_model:
   RandomForestClassifier:
     max_depth:
-      - 5
-      - 8
-      - 15
-      - None
-      - 10
+    - 5
+    - 8
+    - 15
+    - None
+    - 10
     max_features:
-      - 5
-      - 7
-      - auto
-      - 8
+    - 5
+    - 7
+    - auto
+    - 8
     min_samples_split:
-      - 2
-      - 8
-      - 15
-      - 20
+    - 2
+    - 8
+    - 15
+    - 20
     n_estimators:
-      - 100
-      - 200
-      - 500
-      - 1000
+    - 100
+    - 200
+    - 500
+    - 1000
   XGBClassifier:
     learning_rate:
-      - 0.1
-      - 0.01
+    - 0.1
+    - 0.01
     max_depth:
-      - 5
-      - 8
-      - 12
-      - 20
-      - 30
+    - 5
+    - 8
+    - 12
+    - 20
+    - 30
     n_estimators:
-      - 100
-      - 200
-      - 300
+    - 100
+    - 200
+    - 300
     colsample_bytree:
-      - 0.5
-      - 0.8
-      - 1
-      - 0.3
-      - 0.4
-
-  CatBoost:
-      learning_rate:
-      - 0.1
-      - 0.01
-      max_depth:
-      - 5
-      - 8
-      - 12
-      - 20
-      - 30
-    
-base_model_score: 0.6
+    - 0.5
+    - 0.8
+    - 1
+    - 0.3
+    - 0.4
+base_model_score: 0.6556750764067836

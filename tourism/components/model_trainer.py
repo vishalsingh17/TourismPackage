@@ -9,7 +9,7 @@ from tourism.utils.read_params import read_params
 logger = logging.getLogger(__name__)
 
 
-class ToursimModel:
+class TourismModel:
     def __init__(self, preprocessing_object, trained_model_object):
         self.preprocessing_object = preprocessing_object
 
@@ -99,7 +99,7 @@ class ModelTrainer:
 
                 self.log_writer.info("Created best model file path")
 
-                self.utils.save_object(best_model_file_path, carprice_model)
+                self.utils.save_object(best_model_file_path, tourism_model)
 
                 self.log_writer.info("Saved the best model object path")
 
