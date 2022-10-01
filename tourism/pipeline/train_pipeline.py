@@ -77,12 +77,12 @@ class TrainPipeline:
         except Exception as e:
             raise TourismException(e, sys) from e
 
-    # @staticmethod
-    # def start_model_pusher():
-    #     try:
-    #         model_trainer = ModelTrainer()
+    @staticmethod
+    def start_model_pusher():
+        try:
+            model_trainer = ModelTrainer()
 
-    #         model_trainer.initiate_model_pusher()
+            model_trainer.initiate_model_pusher()
 
         except Exception as e:
             raise TourismException(e, sys) from e
@@ -99,7 +99,7 @@ class TrainPipeline:
 
                 self.start_model_trainer(train_set, test_set)
 
-                # self.start_model_pusher()
+                self.start_model_pusher()
 
         except Exception as e:
             raise TourismException(e, sys) from e
