@@ -37,47 +37,58 @@ model_file_name: model
 preprocessor_obj_file_name: tourism/artifacts/preprocessor.pkl
 
 train_model:
-  CatBoosting Classifier:
-#     max_depth:
-#       - 5
-#       - 8
-#       - 15
-#       - None
-#       - 10
-#     max_features:
-#       - 5
-#       - 7
-#       - auto
-#       - 8
-#     min_samples_split:
-#       - 2
-#       - 8
-#       - 15
-#       - 20
-#     n_estimators:
-#       - 100
-#       - 200
-#       - 500
-#       - 1000
-#   XGBClassifier:
-#     learning_rate:
-#       - 0.1
-#       - 0.01
-#     max_depth:
-#       - 5
-#       - 8
-#       - 12
-#       - 20
-#       - 30
-#     n_estimators:
-#       - 100
-#       - 200
-#       - 300
-#     colsample_bytree:
-#       - 0.5
-#       - 0.8
-#       - 1
-#       - 0.3
-#       - 0.4
-      
+  rf_params:
+    max_depth:
+      - 5
+      - 8
+      - 15
+      - None
+      - 10
+    max_features:
+      - 5
+      - 7
+      - auto
+      - 8
+    min_samples_split:
+      - 2
+      - 8
+      - 15
+      - 20
+    n_estimators:
+      - 100
+      - 200
+      - 500
+      - 1000
+  xgboost_params:
+    learning_rate:
+      - 0.1
+      - 0.01
+    max_depth:
+      - 5
+      - 8
+      - 12
+      - 20
+      - 30
+    n_estimators:
+      - 100
+      - 200
+      - 300
+    colsample_bytree:
+      - 0.5
+      - 0.8
+      - 1
+      - 0.3
+      - 0.4
+
+  cat_params:
+      learning_rate:
+      - 0.1
+      - 0.01
+      max_depth:
+      - 5
+      - 8
+      - 12
+      - 20
+      - 30
+    
 base_model_score: 0.6
