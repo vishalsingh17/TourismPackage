@@ -26,7 +26,7 @@ model_dir:
   prod: production
 
 model_utils:
-  verbose: 3
+  verbose: False
   cv: 2
   n_jobs: -1
 
