@@ -37,7 +37,7 @@ model_file_name: model
 preprocessor_obj_file_name: tourism/artifacts/preprocessor.pkl
 
 train_model:
-  rf_params:
+  RandomForestClassifier:
     max_depth:
       - 5
       - 8
@@ -59,7 +59,7 @@ train_model:
       - 200
       - 500
       - 1000
-  xgboost_params:
+  XGBClassifier:
     learning_rate:
       - 0.1
       - 0.01
@@ -80,7 +80,7 @@ train_model:
       - 0.3
       - 0.4
 
-  cat_params:
+  CatBoost:
       learning_rate:
       - 0.1
       - 0.01
