@@ -1,169 +1,132 @@
 import logging
 import sys
-
-import pandas as pd
-
 from tourism.components.s3_operations import S3Operation
+from tourism.components.tuner import ModelFinder
 from tourism.exception import TourismException
 from tourism.utils.main_utils import MainUtils
 from tourism.utils.read_params import read_params
 
-log_writer = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
+class ToursimModel:
+    def __init__(self, preprocessing_object, trained_model_object):
+        self.preprocessing_object = preprocessing_object
 
-class TourismData:
-    def __init__(
-        self,
-        CustomerID,
-        ProdTaken,  
-        Age,
-        CityTier,
-        DurationOfPitch,
-        NumberOfPersonVisiting,
-        NumberOfFollowups,
-        PreferredPropertyStar,
-        NumberOfTrips,
-        Passport,
-        PitchSatisfactionScore,
-        OwnCar,
-        NumberOfChildrenVisiting,
-        MonthlyIncome,
-        TypeofContact,
-        Occupation,
-        Gender,
-        ProductPitched,
-        MaritalStatus,
-        Designation,
-    ):
-        self.CustomerID = CustomerID
+        self.trained_model_object = trained_model_object
 
-        self.ProdTaken = ProdTaken
-
-        self.Age = Age
-
-        self.CityTier = CityTier
-
-        self.DurationOfPitch = DurationOfPitch
-
-        self.NumberOfPersonVisiting = NumberOfPersonVisiting
-
-        self.NumberOfFollowups = NumberOfFollowups
-
-        self.PreferredPropertyStar = PreferredPropertyStar
-
-        self.NumberOfTrips = NumberOfTrips
-
-        self.Passport = Passport
-
-        self.PitchSatisfactionScore = PitchSatisfactionScore
-        
-        self.OwnCar = OwnCar
-        
-        self.NumberOfChildrenVisiting = NumberOfChildrenVisiting
-        
-        self.MonthlyIncome = MonthlyIncome
-        
-        self.TypeofContact = TypeofContact
-        
-        self.Occupation = Occupation
-        
-        self.Gender = Gender
-        
-        self.ProductPitched = ProductPitched
-        
-        self.MaritalStatus = MaritalStatus
-        
-        self.Designation = Designation
-    
-    def get_tourism_input_data_frame(self):
-
-        log_writer.info(
-            "Entered get_tourism_input_data_frame method of TourismData class"
-        )
+    def predict(self, X):
+        logger.info("Entered predict method of TourismModel class")
 
         try:
-            tourism_input_dict = self.get_toursim_as_dict()
+            logger.info("Using the trained model to get predictions")
 
-            log_writer.info("Got tourism data as dict")
+            transformed_feature = self.preprocessing_object.transform(X)
 
-            log_writer.info(
-                "Exited get_toursim_input_data_frame method of TourismData class"
-            )
+            logger.info("Used the trained model to get predictions")
 
-            return pd.DataFrame(tourism_input_dict)
+            return self.trained_model_object.predict(transformed_feature)
 
         except Exception as e:
             raise TourismException(e, sys) from e
 
-    def get_tourism_as_dict(self):
-        log_writer.info("Entered get_tourism_as_dict method as tourismData class")
+    def __repr__(self):
+        return f"{type(self.trained_model_object).__name__}()"
 
-        try:
-            input_data = {
-                "CustomerID": [self.CustomerID],
-                "ProdTaken": [self.ProdTaken],
-                "Age": [self.Age],
-                "CityTier": [self.CityTier],
-                "DurationOfPitch": [self.DurationOfPitch],
-                "NumberOfPersonVisiting": [self.NumberOfPersonVisiting],
-                "NumberOfFollowups": [self.NumberOfFollowups],
-                "PreferredPropertyStar": [self.PreferredPropertyStar],
-                "NumberOfTrips": [self.NumberOfTrips],
-                "Passport": [self.Passport],
-                "PitchSatisfactionScore": [self.PitchSatisfactionScore],
-                "OwnCar": [self.OwnCar],
-                "NumberOfChildrenVisiting": [self.NumberOfChildrenVisiting],
-                "MonthlyIncome": [self.MonthlyIncome],
-                "TypeofContact": [self.TypeofContact],
-                "Occupation": [self.Occupation],
-                "Gender": [self.Gender],
-                "ProductPitched": [self.ProductPitched],
-                "MaritalStatus": [self.MaritalStatus],
-                "Designation": [self.Designation],
-            }
-
-            log_writer.info("Created tourism data dict")
-
-            input_data = pd.DataFrame(input_data)
-
-            log_writer.info("Created a dataframe of tourism data")
-
-            log_writer.info("Exited get_tourism_as_dict method as tourismData class")
-
-            return input_data
-
-        except Exception as e:
-            raise TourismException(e, sys) from e
+    def __str__(self):
+        return f"{type(self.trained_model_object).__name__}()"
 
 
-class TourismPredictor:
+class ModelTrainer:
     def __init__(self):
+        self.tuner = ModelFinder()
+
         self.utils = MainUtils()
 
         self.s3 = S3Operation()
 
         self.config = read_params()
 
-        self.model_file = self.config["model_file_name"]
+        self.log_writer = logging.getLogger(__name__)
+
+        self.artifacts_dir = self.config["artifacts_dir"]
 
         self.io_files_bucket = self.config["s3_bucket"]["tourism_input_files_bucket"]
 
-    def predict(self, X):
-        log_writer.info("Entered predict method of TourismPredictor class")
+        self.preprocessor_obj_file_name = self.config["preprocessor_obj_file_name"]
+
+    def initiate_model_trainer(self, train_set, test_set):
+
+        self.log_writer.info(
+            "Entered initiate_model_trainer nethod of ModelTrainer class"
+        )
 
         try:
-            best_model = self.s3.load_model(self.model_file, self.io_files_bucket)
+            lst = self.tuner.get_trained_models(train_set, test_set)
 
-            log_writer.info("Loaded best model from s3 bucket")
+            self.log_writer.info(
+                "Got a list of tuple of model score,model and model name"
+            )
 
-            selling_price_pred = best_model.predict(X)
+            (
+                best_model,
+                best_model_score,
+            ) = self.utils.get_best_model_with_name_and_score(lst)
 
-            log_writer.info("Used best model to get predictions")
+            self.log_writer.info("Got best model score,model and model name")
 
-            log_writer.info("Exited predict method of TourismPredictor class")
+            preprocessing_obj = self.utils.load_object(self.preprocessor_obj_file_name)
 
-            return selling_price_pred
+            self.log_writer.info("Loaded preprocessing object")
+
+            base_model_score = self.config["base_model_score"]
+
+            if best_model_score >= base_model_score:
+                self.utils.update_model_score(best_model_score)
+
+                self.log_writer.info("Updating model score in yaml file")
+
+                tourism_model = TourismModel(
+                    preprocessing_object=preprocessing_obj,
+                    trained_model_object=best_model,
+                )
+
+                self.log_writer.info(
+                    "Created tourism model object with preprocessor and model"
+                )
+
+                best_model_file_path = self.artifacts_dir + "/" + "model" + ".sav"
+
+                self.log_writer.info("Created best model file path")
+
+                self.utils.save_object(best_model_file_path, carprice_model)
+
+                self.log_writer.info("Saved the best model object path")
+
+            else:
+                self.log_writer.info(
+                    "No best model found with score more than base score"
+                )
+                raise "No best model found with score more than base score "
+
+        except Exception as e:
+            raise TourismException(e, sys) from e
+
+    def initiate_model_pusher(self):
+        self.log_writer.info(
+            "Entered initiate_model_pusher method of ModelTrainer class"
+        )
+
+        try:
+            self.log_writer.info("Uploading artifacts folder to s3 bucket")
+
+            self.s3.upload_folder(self.artifacts_dir, self.io_files_bucket)
+
+            self.log_writer.info("Uploaded artifacts folder to s3 bucket")
+
+            self.log_writer.info(
+                "Exited initiate_model_pusher method of ModelTrainer class"
+            )
 
         except Exception as e:
             raise TourismException(e, sys) from e

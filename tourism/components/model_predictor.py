@@ -156,13 +156,13 @@ class TourismPredictor:
 
             log_writer.info("Loaded best model from s3 bucket")
 
-            selling_price_pred = best_model.predict(X)
+            tourism_op = best_model.predict(X)
 
             log_writer.info("Used best model to get predictions")
 
             log_writer.info("Exited predict method of TourismPredictor class")
 
-            return selling_price_pred
+            return tourism_op
 
         except Exception as e:
             raise TourismException(e, sys) from e
