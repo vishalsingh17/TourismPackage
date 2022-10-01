@@ -15,81 +15,121 @@ log_writer = logging.getLogger(__name__)
 class TourismData:
     def __init__(
         self,
-        car_name,
-        vehicle_age,
-        km_driven,
-        seller_type,
-        fuel_type,
-        transmission_type,
-        mileage,
-        engine,
-        max_power,
-        seats,
+        CustomerID,
+        ProdTaken,  
+        Age,
+        CityTier,
+        DurationOfPitch,
+        NumberOfPersonVisiting,
+        NumberOfFollowups,
+        PreferredPropertyStar,
+        NumberOfTrips,
+        Passport,
+        PitchSatisfactionScore,
+        OwnCar,
+        NumberOfChildrenVisiting,
+        MonthlyIncome,
+        TypeofContact,
+        Occupation,
+        Gender,
+        ProductPitched,
+        MaritalStatus,
+        Designation,
     ):
-        self.car_name = car_name
+        self.CustomerID = CustomerID
 
-        self.vehicle_age = vehicle_age
+        self.ProdTaken = ProdTaken
 
-        self.km_driven = km_driven
+        self.Age = Age
 
-        self.seller_type = seller_type
+        self.CityTier = CityTier
 
-        self.fuel_type = fuel_type
+        self.DurationOfPitch = DurationOfPitch
 
-        self.transmission_type = transmission_type
+        self.NumberOfPersonVisiting = NumberOfPersonVisiting
 
-        self.mileage = mileage
+        self.NumberOfFollowups = NumberOfFollowups
 
-        self.engine = engine
+        self.PreferredPropertyStar = PreferredPropertyStar
 
-        self.max_power = max_power
+        self.NumberOfTrips = NumberOfTrips
 
-        self.seats = seats
+        self.Passport = Passport
 
-    def get_carprice_input_data_frame(self):
+        self.PitchSatisfactionScore = PitchSatisfactionScore
+        
+        self.OwnCar = OwnCar
+        
+        self.NumberOfChildrenVisiting = NumberOfChildrenVisiting
+        
+        self.MonthlyIncome = MonthlyIncome
+        
+        self.TypeofContact = TypeofContact
+        
+        self.Occupation = Occupation
+        
+        self.Gender = Gender
+        
+        self.ProductPitched = ProductPitched
+        
+        self.MaritalStatus = MaritalStatus
+        
+        self.Designation = Designation
+    
+    def get_tourism_input_data_frame(self):
 
         log_writer.info(
-            "Entered get_carprice_input_data_frame method of CarPriceData class"
+            "Entered get_tourism_input_data_frame method of TourismData class"
         )
 
         try:
-            carprice_input_dict = self.get_car_data_as_dict()
+            tourism_input_dict = self.get_toursim_as_dict()
 
-            log_writer.info("Got car data as dict")
+            log_writer.info("Got tourism data as dict")
 
             log_writer.info(
-                "Exited get_carprice_input_data_frame method of CarPriceData class"
+                "Exited get_toursim_input_data_frame method of TourismData class"
             )
 
-            return pd.DataFrame(carprice_input_dict)
+            return pd.DataFrame(tourism_input_dict)
 
         except Exception as e:
             raise TourismException(e, sys) from e
 
-    def get_car_data_as_dict(self):
-        log_writer.info("Entered get_car_data_as_dict method as CarPriceData class")
+    def get_tourism_as_dict(self):
+        log_writer.info("Entered get_tourism_as_dict method as tourismData class")
 
         try:
             input_data = {
-                "car_name": [self.car_name],
-                "vehicle_age": [self.vehicle_age],
-                "km_driven": [self.km_driven],
-                "seller_type": [self.seller_type],
-                "fuel_type": [self.fuel_type],
-                "transmission_type": [self.transmission_type],
-                "mileage": [self.mileage],
-                "engine": [self.engine],
-                "max_power": [self.max_power],
-                "seats": [self.seats],
+                "CustomerID": [self.CustomerID],
+                "ProdTaken": [self.ProdTaken],
+                "Age": [self.Age],
+                "CityTier": [self.CityTier],
+                "DurationOfPitch": [self.DurationOfPitch],
+                "NumberOfPersonVisiting": [self.NumberOfPersonVisiting],
+                "NumberOfFollowups": [self.NumberOfFollowups],
+                "PreferredPropertyStar": [self.PreferredPropertyStar],
+                "NumberOfTrips": [self.NumberOfTrips],
+                "Passport": [self.Passport],
+                "PitchSatisfactionScore": [self.PitchSatisfactionScore],
+                "OwnCar": [self.OwnCar],
+                "NumberOfChildrenVisiting": [self.NumberOfChildrenVisiting],
+                "MonthlyIncome": [self.MonthlyIncome],
+                "TypeofContact": [self.TypeofContact],
+                "Occupation": [self.Occupation],
+                "Gender": [self.Gender],
+                "ProductPitched": [self.ProductPitched],
+                "MaritalStatus": [self.MaritalStatus],
+                "Designation": [self.Designation],
             }
 
-            log_writer.info("Created car data dict")
+            log_writer.info("Created tourism data dict")
 
             input_data = pd.DataFrame(input_data)
 
-            log_writer.info("Created a dataframe of car data")
+            log_writer.info("Created a dataframe of tourism data")
 
-            log_writer.info("Exited get_car_data_as_dict method as CarPriceData class")
+            log_writer.info("Exited get_tourism_as_dict method as tourismData class")
 
             return input_data
 
@@ -97,7 +137,7 @@ class TourismData:
             raise TourismException(e, sys) from e
 
 
-class CarPricePredictor:
+class TourismPredictor:
     def __init__(self):
         self.utils = MainUtils()
 
@@ -110,7 +150,7 @@ class CarPricePredictor:
         self.io_files_bucket = self.config["s3_bucket"]["tourism_input_files_bucket"]
 
     def predict(self, X):
-        log_writer.info("Entered predict method of CarPricePredictor class")
+        log_writer.info("Entered predict method of TourismPredictor class")
 
         try:
             best_model = self.s3.load_model(self.model_file, self.io_files_bucket)
@@ -121,7 +161,7 @@ class CarPricePredictor:
 
             log_writer.info("Used best model to get predictions")
 
-            log_writer.info("Exited predict method of CarPricePredictor class")
+            log_writer.info("Exited predict method of TourismPredictor class")
 
             return selling_price_pred
 
