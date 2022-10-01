@@ -15,7 +15,7 @@ class TourismData:
     def __init__(
         self,
         CustomerID,
-        ProdTaken,  
+        ProdTaken,
         Age,
         CityTier,
         DurationOfPitch,
@@ -56,23 +56,23 @@ class TourismData:
         self.Passport = Passport
 
         self.PitchSatisfactionScore = PitchSatisfactionScore
-        
+
         self.OwnCar = OwnCar
-        
+
         self.NumberOfChildrenVisiting = NumberOfChildrenVisiting
-        
+
         self.MonthlyIncome = MonthlyIncome
-        
+
         self.TypeofContact = TypeofContact
-        
+
         self.Occupation = Occupation
-        
+
         self.Gender = Gender
-        
+
         self.ProductPitched = ProductPitched
-        
+
         self.MaritalStatus = MaritalStatus
-        
+
         self.Designation = Designation
 
     def get_tourism_input_data_frame(self):

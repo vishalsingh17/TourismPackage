@@ -1,4 +1,5 @@
 from yaml import safe_load
+
 # tourism\config\params.yaml
 def read_params(config_path="tourism/config/params.yaml"):
     """

@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 schema_config = read_params("tourism/config/schema.yaml")
 
+
 def validate_schema_columns(df):
     try:
         try:
@@ -21,6 +22,7 @@ def validate_schema_columns(df):
         return validation_status
     except Exception as e:
         raise TourismException(e, sys) from e
+
 
 def validate_schema_for_numerical_datatype(df):
     try:
@@ -38,6 +40,7 @@ def validate_schema_for_numerical_datatype(df):
 
     except Exception as e:
         raise TourismException(e, sys) from e
+
 
 def validate_schema_for_categorical_datatype(df):
     try:

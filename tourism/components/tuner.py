@@ -28,7 +28,11 @@ class ModelFinder:
             lst = [
                 (
                     self.utils.get_tuned_model(
-                        model_name, x_train, y_train, x_test, y_test,
+                        model_name,
+                        x_train,
+                        y_train,
+                        x_test,
+                        y_test,
                     )
                 )
                 for model_name in models_lst

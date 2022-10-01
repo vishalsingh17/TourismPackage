@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler,PowerTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, PowerTransformer
 
 from tourism.components.data_ingestion import DataIngestion
 from tourism.exception import TourismException
@@ -58,8 +58,11 @@ class DataTransformation:
             )
 
             continuous_pipeline = Pipeline(
-                steps=[("imputer", SimpleImputer(strategy="mean")), 
-                ("scaler", StandardScaler())])
+                steps=[
+                    ("imputer", SimpleImputer(strategy="mean")),
+                    ("scaler", StandardScaler()),
+                ]
+            )
 
             cat_pipeline = Pipeline(
                 steps=[
