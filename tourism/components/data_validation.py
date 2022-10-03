@@ -185,11 +185,12 @@ class DataValidation:
                     and schema_test_col_status is True
                 ):
                     logger.info("Dataset schema validation completed")
-
-                else:
                     return True
+                else:
+                    logger.info("Dataset schema validation Stopped")
+                    return False
             else:
-                logger.error("Data Drift detected, data validation stopped")
+                logger.info("Data Drift detected, data validation stopped")
 
                 return False
 

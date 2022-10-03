@@ -97,7 +97,7 @@ class TrainPipeline:
                 train_set, test_set = self.start_data_transformation(
                     train_set, test_set
                 )
-
+            
                 self.start_model_trainer(train_set, test_set)
 
                 self.start_model_pusher()

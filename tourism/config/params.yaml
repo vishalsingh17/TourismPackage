@@ -66,4 +66,4 @@ train_model:
     - 1
     - 0.3
     - 0.4
-base_model_score: 0.6
+base_model_score: 0.6101041344468502
