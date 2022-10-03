@@ -119,6 +119,7 @@ class DataForm:
 
         self.Designation = form.get("Designation")
 
+
 @app.get("/")
 async def predictGetRouteClient(request: Request):
     try:
