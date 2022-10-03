@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from uvicorn import run as app_run
 
-from tourism.components.model_predictor import TourismData, TourismPredictor
+from tourism.components.model_predictor import TourismData, ModelPredictor
 from tourism.pipeline.train_pipeline import TrainPipeline
 from tourism.utils.main_utils import MainUtils
 from tourism.utils.read_params import read_params
@@ -80,38 +80,52 @@ class DataForm:
 
         self.Designation: Optional[str] = None
 
-    async def get_car_data(self):
+    async def get_tourism_data(self):
         form = await self.request.form()
 
-        self.car_name = form.get("car_name")
+        self.Age = form.get("Age")
 
-        self.vehicle_age = form.get("vehicle_age")
+        self.CityTier = form.get("CityTier")
 
-        self.km_driven = form.get("km_driven")
+        self.DurationOfPitch = form.get("DurationOfPitch")
 
-        self.seller_type = form.get("seller_type")
+        self.NumberOfPersonVisiting = form.get("NumberOfPersonVisiting")
 
-        self.fuel_type = form.get("fuel_type")
+        self.NumberOfFollowups = form.get("NumberOfFollowups")
 
-        self.transmission_type = form.get("transmission")
+        self.PreferredPropertyStar = form.get("PreferredPropertyStar")
 
-        self.mileage = form.get("mileage")
+        self.NumberOfTrips = form.get("NumberOfTrips")
 
-        self.engine = form.get("engine")
+        self.Passport = form.get("Passport")
 
-        self.max_power = form.get("max_power")
+        self.PitchSatisfactionScore = form.get("PitchSatisfactionScore")
 
-        self.seats = form.get("seats")
+        self.OwnCar = form.get("OwnCar")
 
+        self.NumberOfChildrenVisiting = form.get("NumberOfChildrenVisiting")
+
+        self.MonthlyIncome = form.get("MonthlyIncome")
+
+        self.TypeofContact = form.get("TypeofContact")
+
+        self.Occupation = form.get("Occupation")
+
+        self.Gender = form.get("Gender")
+
+        self.ProductPitched = form.get("ProductPitched")
+
+        self.MaritalStatus = form.get("MaritalStatus")
+
+        self.Designation = form.get("Designation")
 
 @app.get("/")
 async def predictGetRouteClient(request: Request):
     try:
-        car_list = utils.get_car_list()
 
         return templates.TemplateResponse(
-            "tourism.html",
-            {"request": request, "context": "Rendering", "car_list": car_list},
+            "index.html",
+            {"request": request, "context": "Rendering"},
         )
 
     except Exception as e:
@@ -123,32 +137,38 @@ async def predictPostRouteClient(request: Request):
     try:
         form = DataForm(request)
 
-        await form.get_car_data()
+        await form.get_tourism_data()
 
-        tourism_data = CarPriceData(
-            car_name=form.car_name,
-            vehicle_age=form.vehicle_age,
-            km_driven=form.km_driven,
-            seller_type=form.seller_type,
-            fuel_type=form.fuel_type,
-            transmission_type=form.transmission_type,
-            mileage=form.mileage,
-            engine=form.engine,
-            max_power=form.max_power,
-            seats=form.seats,
+        tourism_data = TourismData(
+            Age=form.Age,
+            CityTier=form.CityTier,
+            DurationOfPitch=form.DurationOfPitch,
+            NumberOfPersonVisiting=form.NumberOfPersonVisiting,
+            NumberOfFollowups=form.NumberOfFollowups,
+            PreferredPropertyStar=form.PreferredPropertyStar,
+            NumberOfTrips=form.NumberOfTrips,
+            Passport=form.Passport,
+            PitchSatisfactionScore=form.PitchSatisfactionScore,
+            OwnCar=form.OwnCar,
+            NumberOfChildrenVisiting=form.NumberOfChildrenVisiting,
+            MonthlyIncome=form.MonthlyIncome,
+            TypeofContact=form.TypeofContact,
+            Occupation=form.Occupation,
+            Gender=form.Gender,
+            ProductPitched=form.ProductPitched,
+            MaritalStatus=form.MaritalStatus,
+            Designation=form.Designation,
         )
 
-        carprice_df = tourism_data.get_car_data_as_dict()
+        tourism_df = tourism_data.get_tourism_as_dict()
 
-        carprice_predictor = CarPricePredictor()
+        tourism_predictor = ModelPredictor()
 
-        car_list = utils.get_car_list()
-
-        carprice_value = carprice_predictor.predict(X=carprice_df)[0]
+        tourism_value = tourism_predictor.predict(X=tourism_df)[0]
 
         return templates.TemplateResponse(
-            "tourism.html",
-            {"request": request, "context": carprice_value, "car_list": car_list},
+            "index.html",
+            {"request": request, "context": tourism_value},
         )
 
     except Exception as e:

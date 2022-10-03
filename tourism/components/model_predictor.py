@@ -14,8 +14,6 @@ log_writer = logging.getLogger(__name__)
 class TourismData:
     def __init__(
         self,
-        CustomerID,
-        ProdTaken,
         Age,
         CityTier,
         DurationOfPitch,
@@ -35,9 +33,6 @@ class TourismData:
         MaritalStatus,
         Designation,
     ):
-        self.CustomerID = CustomerID
-
-        self.ProdTaken = ProdTaken
 
         self.Age = Age
 
@@ -100,8 +95,6 @@ class TourismData:
 
         try:
             input_data = {
-                "CustomerID": [self.CustomerID],
-                "ProdTaken": [self.ProdTaken],
                 "Age": [self.Age],
                 "CityTier": [self.CityTier],
                 "DurationOfPitch": [self.DurationOfPitch],

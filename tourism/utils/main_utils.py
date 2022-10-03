@@ -4,7 +4,7 @@ import sys
 
 import dill
 import xgboost
-from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.utils import all_estimators
 from yaml import dump
@@ -49,7 +49,7 @@ class MainUtils:
 
     def get_model_score(self, test_y, preds):
         try:
-            self.model_score = r2_score(test_y, preds)
+            self.model_score = accuracy_score(test_y, preds)
 
             # self.logger.info("model score is :",self.model_score)
 
@@ -131,9 +131,9 @@ class MainUtils:
         except Exception as e:
             raise TourismException(e, sys) from e
 
-    def get_car_list(self):
+    def get_tourism_list(self):
         try:
-            lst = self.config["car_list"]
+            lst = self.config["tourism_list"]
 
             return lst
         except Exception as e:
