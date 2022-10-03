@@ -51,6 +51,8 @@ class MainUtils:
         try:
             self.model_score = r2_score(test_y, preds)
 
+            # self.logger.info("model score is :",self.model_score)
+
             return self.model_score
 
         except Exception as e:

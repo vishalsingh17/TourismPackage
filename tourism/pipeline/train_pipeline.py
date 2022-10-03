@@ -72,6 +72,7 @@ class TrainPipeline:
             model_trainer = ModelTrainer()
 
             model_trainer.initiate_model_trainer(train_set, test_set)
+
             return {"status": True, "message": "Model Training completed"}
 
         except Exception as e:

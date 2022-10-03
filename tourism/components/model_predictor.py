@@ -82,7 +82,7 @@ class TourismData:
         )
 
         try:
-            Tourism_input_dict = self.get_car_data_as_dict()
+            Tourism_input_dict = self.get_tourism_as_dict()
 
             log_writer.info("Got car data as dict")
 
@@ -136,7 +136,7 @@ class TourismData:
             raise TourismException(e, sys) from e
 
 
-class TourismPredictor:
+class ModelPredictor:
     def __init__(self):
         self.utils = MainUtils()
 

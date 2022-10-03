@@ -58,7 +58,7 @@ class ModelTrainer:
     def initiate_model_trainer(self, train_set, test_set):
 
         self.log_writer.info(
-            "Entered initiate_model_trainer nethod of ModelTrainer class"
+            "Entered initiate_model_trainer method of ModelTrainer class"
         )
 
         try:
