@@ -126,7 +126,7 @@ async def predictGetRouteClient(request: Request):
 
         return templates.TemplateResponse(
             "index.html",
-            {"request": request, "context": "Rendering"},
+            {"request": request, "context": "Rendering..."},
         )
 
     except Exception as e:
@@ -167,9 +167,14 @@ async def predictPostRouteClient(request: Request):
 
         tourism_value = tourism_predictor.predict(X=tourism_df)[0]
 
+        if tourism_value == 1:
+            results = "The Tourist bought the package"
+        
+        else:
+            results = "The Tourist didn't buy the package"
         return templates.TemplateResponse(
             "index.html",
-            {"request": request, "context": tourism_value},
+            {"request": request, "context": f"{results}"},
         )
 
     except Exception as e:

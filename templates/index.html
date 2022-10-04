@@ -130,6 +130,7 @@
                             <label for="NumberOfChildrenVisiting">Number of Children Visiting</label>
                             <select class="form-control" id="NumberOfChildrenVisiting" name="NumberOfChildrenVisiting" placeholder="NumberOfChildrenVisiting" required="required">
                                 <option value="" disabled selected>Select Number of Children Visiting</option>
+                                <option value = 0>0</option>
                                 <option value = 1>1</option>
                                 <option value = 2>2</option>
                                 <option value = 3>3</option>
@@ -149,7 +150,7 @@
                                 <option value="" disabled selected>Select Number of Children Visiting</option>
                                 <option value = 'Company Invited'>Company Invited</option>
                                 <option value = 'Self Enquiry'>Self Enquiry</option>
-                                <option value = nan>No Data</option>
+                                <!-- <option value = nan>No Data</option> -->
                             </select>
                         </div>
 
@@ -159,7 +160,7 @@
 
                         <div class="mb-3 col">
                             <label for="Occupation">Occupation</label>
-                            <select class="form-control" id="PreferredPropertyStar" name="PreferredPropertyStar" placeholder="PreferredPropertyStar" required="required">
+                            <select class="form-control" id="Occupation" name="Occupation" placeholder="Occupation" required="required">
                                 <option value="" disabled selected>Select Your Occupation</option>
                                 <option value = 'Salaried'>Salaried</option>
                                 <option value = 'Free Lancer'>Free Lancer</option>
@@ -214,13 +215,13 @@
                             <option value = 'VP'>VP</option>
                         </select>
                     </div>
-
+                    <input class="btn btn-primary" type="submit" value="Package Prediction" required />
                 </div>
 
                 </form>
             </div>
             <div class="text-center text-black">
-                <h2 class="display-4 fw-bolder">The predicted car price is  {{context}} </h2>
+                <h2 class="display-4 fw-bolder">{{context}} </h2>
             </div>
         </div>
     </section>
