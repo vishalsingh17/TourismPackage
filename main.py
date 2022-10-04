@@ -126,7 +126,7 @@ async def predictGetRouteClient(request: Request):
 
         return templates.TemplateResponse(
             "index.html",
-            {"request": request, "context": "Rendering..."},
+            {"request": request, "context": "Fill all the fields for getting accurate results..."},
         )
 
     except Exception as e:
