@@ -1,14 +1,14 @@
 jupyter
 pymongo
 pandas
-PyYAML
 evidently
-category_encoders
-from_root
+category-encoders
+from-root
 matplotlib
 seaborn
 imblearn
 xgboost
 catboost
 boto3
-python-multipart==0.0.5
+python-multipart
+- e.
